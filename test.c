@@ -9,7 +9,9 @@ void  TaskStart(void *data);
 int  main (void)
 {
     OSInit();
-    OSTaskCreate(TaskStart, (void *)0, &TaskStk[TASK_STK_SIZE - 1], 1);
+    PC_DOSSaveReturn();
+    //PC_VectSet(uCOS, OSCtxSw);
+    OSTaskCreate(TaskStart, (void*)0, (void*)&TaskStk[TASK_STK_SIZE-1], 0);
     OSStart();
     return 0;
 }
@@ -17,9 +19,16 @@ int  main (void)
 
 void  TaskStart (void *pdata)
 {
-	INT16U i;
-	for(i = 0; ; i++){
-		printf("test : %d\n", i);
-	}	
+//	OS_ENTER_CRITICAL();
+	PC_VectSet(0x08, OSTickISR);
+	PC_SetTickRate(OS_TICKS_PER_SEC);
+//	OS_EXIT_CRITICAL();
+
+	for(;;)
+	{
+		printf("Task Run");
+		OSTimeDly(100);
+	}
+
 }
 
