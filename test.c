@@ -29,9 +29,9 @@ void  MyTask (void *pdata)
 	
 	while(1){
 		OSTimeDly(1);
-		OSSemPend(sem,0,&err);
+	//	OSSemPend(sem,0,&err);
 		res = 0;
-		OSSemPost(sem);
+	//	OSSemPost(sem);
 		OSTimeDly(1);
 	}
 
@@ -39,11 +39,11 @@ void  MyTask (void *pdata)
 void MyChildTask(void* pdata){
 	INT8U err;
 	while(1){
-		OSSemPend(sem,0,&err);
+	//	OSSemPend(sem,0,&err);
 		res = 3;
 		OSTimeDly(1);
 		res+=5;
 		printf("Result = %d\n", res);
-		OSSemPost(sem);
+	//	OSSemPost(sem);
 	}
 }
