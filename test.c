@@ -9,7 +9,7 @@ void  TaskStart(void *data);
 int  main (void)
 {
     OSInit();
-    PC_DOSSaveReturn();
+    //PC_DOSSaveReturn();
     //PC_VectSet(uCOS, OSCtxSw);
     OSTaskCreate(TaskStart, (void*)0, (void*)&TaskStk[TASK_STK_SIZE-1], 0);
     OSStart();
@@ -20,8 +20,8 @@ int  main (void)
 void  TaskStart (void *pdata)
 {
 //	OS_ENTER_CRITICAL();
-	PC_VectSet(0x08, OSTickISR);
-	PC_SetTickRate(OS_TICKS_PER_SEC);
+//	PC_VectSet(0x08, OSTickISR);
+//	PC_SetTickRate(OS_TICKS_PER_SEC);
 //	OS_EXIT_CRITICAL();
 
 	for(;;)
