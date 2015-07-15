@@ -13,6 +13,12 @@ void AlgoTask(void* pdata);
 int res;
 OS_EVENT* sync;
 
+typedef struct _keyInfo{
+	int a;
+	int b;
+	int c;
+}KeyInfo;
+
 int  main (void)
 {
 	int a;
@@ -42,18 +48,21 @@ void  MyTask (void *pdata)
 }
 void KeyTask(void* pdata){
 	INT8U err;
+	KeyInfo a = {0,};
+	a.a = 1;
+	a.b = 2;
+	a.c = 3;
 	while(1){
-		OSTimeDly(1);
 		printf("Key input!\n");
-		OSMboxPost(sync,100);
+		OSMboxPost(sync, &a);
 	}
 }
 void SoundTask(void* pdata){
 	INT8U err;
-	int msg;
+	KeyInfo* msg;
 	while(1){
 		msg = OSMboxPend(sync,0,&err);
-		printf("Sound Executing msg = %d\n", msg);
+		printf("Sound Executing msg = %d %d %d\n", msg->a,msg->b,msg->c);
 	}
 }
 void AlgoTask(void* pdata){
