@@ -1,25 +1,23 @@
 #include "includes.h"
 
-#define  TASK_STK_SIZE 512
+OS_STK MyTaskStack[1024];
 
-OS_STK TaskStk[TASK_STK_SIZE];
-
-void  TaskStart(void *data);
+void MyTask(void* pdata);
 
 int  main (void)
 {
+	int a;
+	printf("main address = %d\n",&a);
     OSInit();
-    OSTaskCreate(TaskStart, (void *)0, &TaskStk[TASK_STK_SIZE - 1], 1);
+    OSTaskCreate(MyTask, (void *)0, &MyTaskStack[1023], 10);
     OSStart();
     return 0;
 }
 
 
-void  TaskStart (void *pdata)
+void  MyTask (void *pdata)
 {
-	INT16U i;
-	for(i = 0; ; i++){
-		printf("test : %d\n", i);
-	}	
+	printf("start address = %d, end address = %d\n", MyTaskStack, &MyTaskStack[1023]);
+	while(1);
 }
 
