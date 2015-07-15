@@ -2,6 +2,7 @@
 
 OS_STK MyTaskStack[1024];
 OS_STK MyChildStack[1024];
+OS_STK MyChildStack2[1024];
 
 void MyTask(void* pdata);
 void KeyTask(void* pdata);
@@ -15,9 +16,7 @@ int  main (void)
 	int a;
 	printf("main address = %d\n",&a);
 	OSInit();
-	OSTaskCreate(MyTask, (void *)0, &MyTaskStack[1023], 10);
-	OSTaskCreate(KeyTask, (void*) 20, &MyChildStack[1023], 20);
-	OSTaskCreate(SoundTask, (void*) 30, &MyChildStack[1023], 30);
+	OSTaskCreate(MyTask, (void *)0, &MyTaskStack[1023], 40);
 	OSStart();
 	return 0;
 }
@@ -28,6 +27,10 @@ void  MyTask (void *pdata)
 	printf("MyTask start\n");
 	sync = OSSemCreate(0);
 	printf("MyTask end\n");
+
+	//SoundTask甫 刚历 积己秦具窃.
+	OSTaskCreate(SoundTask, (void*) 30, &MyChildStack2[1023], 20);
+	OSTaskCreate(KeyTask, (void*) 20, &MyChildStack[1023], 30);
 
 }
 void KeyTask(void* pdata){
