@@ -18,6 +18,9 @@ int  main (void)
 void  MyTask (void *pdata)
 {
 	printf("start address = %d, end address = %d\n", MyTaskStack, &MyTaskStack[1023]);
-	while(1);
+	while(1){
+		printf("task1\n");
+		OSTimeDly(1);
+	}
 }
 
