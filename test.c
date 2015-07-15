@@ -4,10 +4,11 @@ OS_STK MyTaskStack[1024];
 OS_STK MyChildStack[1024];
 
 void MyTask(void* pdata);
-void MyChildTask(void* pdata);
+void KeyTask(void* pdata);
+void SoundTask(void* pdata);
 
 int res;
-OS_EVENT* mu;
+OS_EVENT* sync;
 
 int  main (void)
 {
@@ -15,7 +16,8 @@ int  main (void)
 	printf("main address = %d\n",&a);
 	OSInit();
 	OSTaskCreate(MyTask, (void *)0, &MyTaskStack[1023], 10);
-	OSTaskCreate(MyChildTask, (void*) 20, &MyChildStack[1023], 20);
+	OSTaskCreate(KeyTask, (void*) 20, &MyChildStack[1023], 20);
+	OSTaskCreate(SoundTask, (void*) 30, &MyChildStack[1023], 30);
 	OSStart();
 	return 0;
 }
@@ -23,26 +25,21 @@ int  main (void)
 
 void  MyTask (void *pdata)
 {
-	INT8U err;
-	mu = OSMutexCreate(2,&err);
-	
+	sync = OSSemCreate(0);
 	while(1){
-		OSTimeDly(1);
-		OSMutexPend(mu,0,&err);
-		res = 0;
-		OSMutexPost(mu);
-		OSTimeDly(1);
 	}
 
 }
-void MyChildTask(void* pdata){
+void KeyTask(void* pdata){
+	while(1){
+		printf("Key input!\n");
+		OSSemPost(sync);
+	}
+}
+void SoundTask(void* pdata){
 	INT8U err;
 	while(1){
-		OSMutexPend(mu,0,&err);
-		res = 3;
-		OSTimeDly(1);
-		res+=5;
-		printf("Result = %d\n", res);
-		OSMutexPost(mu);
+		OSSemPend(sync,0,&err);
+		printf("Sound Executing\n");
 	}
 }
