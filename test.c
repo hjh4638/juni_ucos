@@ -50,7 +50,7 @@ void KeyTask(void* pdata){
 void SoundTask(void* pdata){
 	INT8U err;
 	while(1){
-		OSFlagPend(sync,0x03,OS_FLAG_WAIT_SET_ANY+OS_FLAG_CONSUME,0,&err);
+		OSFlagPend(sync,0x03,OS_FLAG_WAIT_SET_ALL+OS_FLAG_CONSUME,0,&err);
 		printf("Sound Executing\n");
 	}
 }
