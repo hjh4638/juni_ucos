@@ -25,9 +25,9 @@ int  main (void)
 
 void  MyTask (void *pdata)
 {
+	printf("MyTask start\n");
 	sync = OSSemCreate(0);
-	while(1){
-	}
+	printf("MyTask end\n");
 
 }
 void KeyTask(void* pdata){
