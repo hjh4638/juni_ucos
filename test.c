@@ -1,8 +1,10 @@
 #include "includes.h"
 
 OS_STK MyTaskStack[1024];
+OS_STK MyChildStack[1024];
 
 void MyTask(void* pdata);
+void MyChildTask(void* pdata);
 
 int  main (void)
 {
@@ -17,10 +19,17 @@ int  main (void)
 
 void  MyTask (void *pdata)
 {
+	OSTaskCreate(MyChildTask, (void*) 20, &MyChildStack[1023], 20);
 	printf("start address = %d, end address = %d\n", MyTaskStack, &MyTaskStack[1023]);
 	while(1){
-		printf("task1\n");
+		printf("10task\n");
+		OSTaskSuspend(10);
+	}
+}
+void MyChildTask(void* pdata){
+	while(1){
+		printf("20 task\n");
+		OSTaskResume(10);
 		OSTimeDly(1);
 	}
 }
-
